@@ -14,6 +14,6 @@ def index(request):
 def concerts(request):
     context = {
         'tittle': 'test',
-        'categories': [ClassicalMusic.__name__,OpenAir.__name__,Party.__name__],
+        'categories': [ClassicalMusic.__name__, OpenAir.__name__, Party.__name__],
     }
     return render(request, 'concerts/concerts.html', context)
