@@ -6,3 +6,6 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     age = models.PositiveIntegerField(blank=False, default=18)
+    first_name = None
+    last_name = None
+
