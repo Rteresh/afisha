@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 # Create your models here.
@@ -32,3 +33,14 @@ class OpenAir(Concert):
 
 class Party(Concert):
     age = models.PositiveIntegerField(blank=False)
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    concert = models.ForeignKey(Concert, on_delete=models.CASCADE)
+    quantity_items_on_basket = models.PositiveIntegerField(default=0)
+    created_timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Корзина для {self.user.username} | {self.concert.name}'
+
