@@ -2,14 +2,15 @@ import random
 
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
-from django.contrib import auth
-from users.forms import UserLoginForm, UserRegisterForm
+from django.contrib import auth, messages
+from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 
 
 def login(request):
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)
         print('check')
+
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
@@ -18,8 +19,12 @@ def login(request):
                 print('all good')
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
+        else:
+            print(form.errors)
+
     else:
         form = UserLoginForm()
+        print(form.errors)
     context = {
         'form': form
     }
@@ -30,12 +35,11 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
             form.save()
+            messages.success(request, 'Вы успешно зарегестрировались')
             return HttpResponseRedirect(reverse('users:login'))
-        else:
-            print(form.errors)
-    form = UserRegisterForm()
+    else:
+        form = UserRegisterForm()
     context = {
         'form': form
     }
@@ -45,4 +49,22 @@ def register(request):
 def generate_code():
     random.seed()
     return str(random.randint(10000, 99999))
+
+
 # Create your views here.
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    context = {'form': form}
+    return render(request, 'users/profile.html', context)
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('index'))

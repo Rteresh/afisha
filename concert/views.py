@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from concert.models import Concert, ClassicalMusic, OpenAir, Party
+from concert.models import ClassicalMusic, OpenAir, Party, Concert
 
 
 # Create your views here.
@@ -15,5 +15,7 @@ def concerts(request):
     context = {
         'tittle': 'test',
         'categories': [ClassicalMusic.__name__, OpenAir.__name__, Party.__name__],
+        'products': Concert.objects.all()
+
     }
     return render(request, 'concerts/concerts.html', context)

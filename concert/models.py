@@ -6,7 +6,11 @@ class Concert(models.Model):
     name = models.CharField(max_length=64, unique=True)
     description = models.TextField(blank=True)
     quantity_tickets = models.PositiveIntegerField(default=100, blank=False)
-    image = models.ImageField(upload_to='concerts_images', blank=True)
+    image = models.ImageField(upload_to='concerts_images', blank=True, max_length=500)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.name
 
 
 class Voice(models.Model):
@@ -19,9 +23,6 @@ class Voice(models.Model):
 class ClassicalMusic(Concert):
     type_of_voice = models.ForeignKey(Voice, on_delete=True)
     name_executor = models.CharField(max_length=64, unique=True)
-
-    def __str__(self):
-        return self.name
 
 
 class OpenAir(Concert):

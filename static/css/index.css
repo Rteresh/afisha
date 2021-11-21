@@ -1,4 +1,5 @@
 body {
+    background: url("../vendor/img/wall.jpg") no-repeat center top fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
