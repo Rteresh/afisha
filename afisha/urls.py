@@ -16,15 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from concert.views import index, concerts
+from concert.views import index
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('concerts/', concerts, name='concerts'),
-    path('users/', include('users.urls',namespace='users'))
-
+    path('concerts/', include('concert.urls', namespace='concerts')),
+    path('users/', include('users.urls', namespace='users')),
+    path('', index, name='index')
 ]
 
 if settings.DEBUG:
