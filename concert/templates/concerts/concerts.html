@@ -5,6 +5,8 @@
 {% endblock %}
 {% block content %}
     <div class="container">
+    {% if products %}
+    {% endif %}
 
         <div class="row">
 
@@ -69,7 +71,7 @@
                                     <p class="card-text">{{ concert.short_description }}</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{% url 'concerts:basket_add' concert_id %}">
+                                    <a href="{% url 'concerts:basket_add' product.id %}">
                                         <button type="button" class="btn btn-outline-success">
                                             Отправить в корзину
                                         </button>

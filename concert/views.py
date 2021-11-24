@@ -26,8 +26,9 @@ def basket_add(request, concert_id):
     baskets = Basket.objects.filter(user=request.user, concert=concert)
     current_page = request.META.get('HTTP_REFERER')
     if not baskets.exists():
-        basket = Basket(user=request.user, concert=concert, quantity_items_on_basket=1)
-        basket.save()
+        # basket = Basket(user=request.user, concert=concert, quantity_items_on_basket=1)
+        # basket.save()
+        Basket.objects.create(user=request.user, concert=concert, quantity_items_on_basket=1)
         return HttpResponseRedirect(current_page)
     else:
         basket = baskets.first()
