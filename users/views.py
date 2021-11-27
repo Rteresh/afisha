@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib import auth, messages
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from concert.models import Basket
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -53,7 +54,7 @@ def generate_code():
 
 
 # Create your views here.
-
+@login_required
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -65,10 +66,12 @@ def profile(request):
         form = UserProfileForm(instance=user)
     baskets = Basket.objects.filter(user=user)
     total_sum = sum(basket.sum() for basket in baskets)
+    total_quantity = sum(basket.quantity_items_on_basket for basket in baskets)
     context = {
         'form': form,
         'baskets': baskets,
         'total_sum': total_sum,
+        'total_quantity': total_quantity,
     }
     return render(request, 'users/profile.html', context)
 
